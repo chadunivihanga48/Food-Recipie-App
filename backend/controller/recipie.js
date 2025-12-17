@@ -22,6 +22,7 @@ const getRecipie = async(req, res) => {
     res.json(recipie)
     }
 const addRecipies = async(req, res) => {
+    console.log(req.user)
     const {title, ingredients, instructions, time} = req.body
 
     if(!title || !ingredients || !instructions){

@@ -19,8 +19,12 @@ const recipieSchema = mongoose.Schema({
     },
     coverImage: {
         type: String,
-        
-    },
+        },
+
+    createdBy: {
+        ype: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }
 }, {timeStamps: true})
 
 module.exports = mongoose.model("Recipies", recipieSchema)
