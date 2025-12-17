@@ -1,4 +1,17 @@
 const Recipies = require("../models/recipie")
+const multer  = require('multer')
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images')
+  },
+  filename: function (req, file, cb) {
+    const filename = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, filename)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 const getRecipies = async(req, res) => {
     const recipies = await Recipies.find()
@@ -15,7 +28,7 @@ const addRecipies = async(req, res) => {
             res.json({message: "Required fields can't be empty"})
     }
     const newRecipie = await Recipies.create({
-        title, ingredients, instructions, time
+        title, ingredients, instructions, time, coverImage:req.file.filename
     })
     return res.json(newRecipie)
 }
@@ -35,4 +48,4 @@ const deleteRecipies = (req, res) => {
     res.json({message: "hello"})
 }
 
-module.exports= {getRecipies, getRecipie, addRecipies, editRecipies, deleteRecipies}
+module.exports= {getRecipies, getRecipie, addRecipies, editRecipies, deleteRecipies, upload}

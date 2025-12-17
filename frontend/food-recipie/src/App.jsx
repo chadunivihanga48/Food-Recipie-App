@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import MainNavigation from './components/MainNavigation.jsx'
 import axios from 'axios'
 import cors from 'cors'
+import { AddFoodRecipe } from './pages/AddFoodRecipe.jsx'
 
 const getAllRecipes = async() => {
   let allRecipes = []
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
      {path: "/", element:<Home />, loader: getAllRecipes},
      {path:"/myrRecipe", element:<Home /> },
      {path: "/favRecipe", element:<Home />},
+     {path: "/addRecipe", element:<AddFoodRecipe />},
   ]}
   
 ])
