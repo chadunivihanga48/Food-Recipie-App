@@ -1,11 +1,14 @@
 import React from 'react'
 import food1 from '../assets/food1.jpg'
-
+import { useLoaderData } from 'react-router-dom'
+import Navbar from '../components/Navbar.jsx'
+import Footer from '../components/Footer.jsx'
 
 export default function Home() {
+  const recipies = useLoaderData();
   return (
     <>
-   
+    <Navbar />
     <section className = 'home'>
         <div className = 'left'>
             <h1>Food Recipe</h1>
@@ -15,6 +18,7 @@ export default function Home() {
         <div className = 'right'>
             <img src = {food1} width ="320px" height= "300px"></img>
         </div>
+         </section>
         <div className = 'bg'>
             <svg 
             xmlns="http://www.w3.org/2000/svg" 
@@ -27,8 +31,10 @@ export default function Home() {
                 />
                 </svg>
         </div>
-    </section>
-   
+    <div className = 'recipe'>
+      <RecipeItems />
+    </div>
+   <Footer />
     </>
   )
 }
