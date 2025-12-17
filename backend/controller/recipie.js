@@ -1,14 +1,35 @@
-const getRecipies = (req, res) => {
-    res.json({message: "hello"})
+const Recipies = require("../models/recipie")
+
+const getRecipies = async(req, res) => {
+    const recipies = await Recipies.find()
+    return res.json(recipies)
 }
-const getRecipie = (req, res) => {
-    res.json({message: "hello"})
+const getRecipie = async(req, res) => {
+    const recipie = await Recipies.findById(req.params.id)
+    res.json(recipie)
+    }
+const addRecipies = async(req, res) => {
+    const {title, ingredients, instructions, time} = req.body
+
+    if(!title || !ingredients || !instructions){
+            res.json({message: "Required fields can't be empty"})
+    }
+    const newRecipie = await Recipies.create({
+        title, ingredients, instructions, time
+    })
+    return res.json(newRecipie)
 }
-const addRecipies = (req, res) => {
-    res.json({message: "hello"})
-}
-const editRecipies = (req, res) => {
-    res.json({message: "hello"})
+const editRecipies = async(req, res) => {
+    const {title, ingredients, instructions, time} = req.body
+    let recipie = await Recipies.findById(req.params.id)
+    try{
+        if(recipie){
+        await Recipies.findByidAndUpdate(req.params.id, req.body, {new:true})
+        res.json({title, ingredients, instructions, time})
+    }
+    }catch(err){
+        return res.status(400).json({message: "error"})
+    }
 }
 const deleteRecipies = (req, res) => {
     res.json({message: "hello"})
