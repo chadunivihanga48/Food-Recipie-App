@@ -4,44 +4,63 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from './pages/Home'
 import MainNavigation from './components/MainNavigation.jsx'
 import axios from 'axios'
-import { AddFoodRecipe } from './pages/AddFoodRecipe'
-import { EditRecipie } from './pages/EditRecipie'
-import { RecipeDetails } from './pages/RecipeDetails'
+import AddFoodRecipe from "./pages/AddFoodRecpe.jsx"
+import EditRecipie from "./pages/EditRecipe.jsx"
+import RecipeDetails from "./pages/RecipeDetails"
 
-const getAllRecipes = async() => {
-  let allRecipes = []
-  await axios.get('http://localhost:5000/recipie').then(res => {
-    allRecipes = res.data
-  })
-  return allRecipes
-}
+const getAllRecipes = async () => {
+  try {
+    const res = await axios.get("http://localhost:5000/recipies");
+    return res.data;
+  } catch (error) {
+    console.error("getAllRecipes error:", error.message);
+    return []; // 👈 prevent crash
+  }
+};
 
-const getMyRecipies = async()=>{
-  let user = JSON.parse(localStorage.getItem("user"))
-  let allRecipes = await getAllRecipes()
-  return allRecipes.filter(item=>item.createdBy===user._id)
-}
+
+const getMyRecipes = async () => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) return [];
+
+    const allRecipes = await getAllRecipes();
+    return allRecipes.filter(item => item.createdBy === user._id);
+  } catch (error) {
+    console.error("getMyRecipes error:", error.message);
+    return [];
+  }
+};
+
 
 const getFavRecipes = () =>{
   return JSON.parse(localStorage.getItem("fav"))
 }
 
-const getRecipe = async({params})=>{
-  let recipe;
-  await axios.get(`http://localhost:5000/recipe/${params.id}`)
-  .then(res=>recipe=res.data)
+const getRecipe = async ({ params }) => {
+  try {
+    const recipeRes = await axios.get(
+      `http://localhost:5000/recipies/${params.id}`
+    );
 
-  await axios.get(`hhtp://localhost:5000/user/${recipe.createdBy}`)
-  .then(res=>{
-    recipe= {...recipe, email:res.data.email}
-  })
-  return recipe
-}
+    let recipe = recipeRes.data;
+
+    const userRes = await axios.get(
+      `http://localhost:5000/users/${recipe.createdBy}`
+    );
+
+    return { ...recipe, email: userRes.data.email };
+  } catch (error) {
+    console.error("getRecipe error:", error.message);
+    return null; // 👈 prevent crash
+  }
+};
+
 
 const router = createBrowserRouter([
   {path: "/", element:<MainNavigation />, children:[
      {path: "/", element:<Home />, loader: getAllRecipes},
-     {path:"/myRecipe", element:<Home />, loader: getMyRecipies },
+     {path:"/myRecipe", element:<Home />, loader: getMyRecipes },
      {path: "/favRecipe", element:<Home />, loader: getFavRecipes},
      {path: "/addRecipe", element:<AddFoodRecipe />},
      {path: "/editRecipie/:id", element:<EditRecipie />},

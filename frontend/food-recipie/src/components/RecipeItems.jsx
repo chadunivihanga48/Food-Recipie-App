@@ -1,6 +1,5 @@
 import React, { useEffect, useState }from 'react'
 import { Link, useLoaderData, useNavigate } from 'react-router-dom'
-import foodImg from '../assets/food1.jpg'
 import { BsStopwatchFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
@@ -9,7 +8,7 @@ import { MdDelete } from "react-icons/md";
 export default function RecipeItems() {
   const recipes = useLoaderData()
   const [allRecipes, setAllRecipes] = useState()
-  let path = window.location.pathname==="/myRecipie" ? true: false
+  let path = window.location.pathname==="/myRecipe" ? true: false
   let favItems = JSON.parse(localStorage.getItem("fav")) ?? []
   const [isFavRecipe, setIsFavRecipe] = useState(false)
   const navigate = useNavigate()
@@ -40,7 +39,7 @@ export default function RecipeItems() {
         allRecipes?.map((item, index) => {
           return(
             <div key = {index} classname = 'card' onDoublieClick= {()=> navigate(`/recipe/${item._id}`)}>
-              <img src = {`http://localhost:5000/images/${item.coverImage}`} width= "120px" height= "100px"></img>
+              
               <div className= 'card-body'>
                 <div className = 'title'>
                   {item.title}

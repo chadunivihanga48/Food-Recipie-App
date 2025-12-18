@@ -14,7 +14,7 @@ export default function Home() {
   const addRecipe = ()=> {
     let token = localStorage.getItem("token")
     if(token)
-    navigate("/addRecipie")
+    navigate("/addRecipe")
   else{
     setIsOpen(true)
   }
@@ -49,7 +49,7 @@ export default function Home() {
     <div className = 'recipe'>
       <RecipeItems />
     </div>
-   
+   < Footer />
     </>
   )
 }
