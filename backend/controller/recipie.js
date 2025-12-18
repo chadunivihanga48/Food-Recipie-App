@@ -29,7 +29,8 @@ const addRecipies = async(req, res) => {
             res.json({message: "Required fields can't be empty"})
     }
     const newRecipie = await Recipies.create({
-        title, ingredients, instructions, time, coverImage:req.file.filename
+        title, ingredients, instructions, time, coverImage:req.file.filename,
+        createdBy: req.user.id
     })
     return res.json(newRecipie)
 }
@@ -38,15 +39,22 @@ const editRecipies = async(req, res) => {
     let recipie = await Recipies.findById(req.params.id)
     try{
         if(recipie){
-        await Recipies.findByidAndUpdate(req.params.id, req.body, {new:true})
+            let coverImage = req.file ?. filename ?req.file?. filename:recipie.coverImage
+        await Recipies.findByidAndUpdate(req.params.id, {...req.body, coverImage}, {new:true})
         res.json({title, ingredients, instructions, time})
     }
     }catch(err){
         return res.status(400).json({message: "error"})
     }
 }
-const deleteRecipies = (req, res) => {
-    res.json({message: "hello"})
+const deleteRecipies = async(req, res) => {
+    try{
+        await RecipeItems.deleteOne({_id:req.params.id})
+        res.json({status: "ok"})
+    }
+    catch(err){
+        return res.status(400).json({message: "error"})
+    }
 }
 
 module.exports= {getRecipies, getRecipie, addRecipies, editRecipies, deleteRecipies, upload}

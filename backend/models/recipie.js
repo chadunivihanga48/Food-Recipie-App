@@ -22,7 +22,7 @@ const recipieSchema = mongoose.Schema({
         },
 
     createdBy: {
-        ype: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }
 }, {timeStamps: true})

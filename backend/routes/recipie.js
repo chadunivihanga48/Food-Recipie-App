@@ -6,7 +6,7 @@ const router = express.Router()
 router.get("/",getRecipies)
 router.get("/:id", getRecipie)
 router.post("/", upload.single('file'),verifyToken,addRecipies)
-router.put("/:id", editRecipies)
+router.put("/:id", upload.single('file'), editRecipies)
 router.delete("/:id", deleteRecipies)
 
 module.exports=router

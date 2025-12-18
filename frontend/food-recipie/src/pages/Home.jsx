@@ -7,6 +7,15 @@ import Footer from '../components/Footer.jsx'
 
 export default function Home() {
   const navigate = useNavigate()
+  const [isOpen, setIsOpen] = useState(false)
+  const addRecipe = ()=> {
+    let token = localStorage.getItem("token")
+    if(token)
+    navigate("/addRecipie")
+  else{
+    setIsOpen(true)
+  }
+  }
   const recipies = useLoaderData();
   return (
     <>
@@ -15,7 +24,7 @@ export default function Home() {
         <div className = 'left'>
             <h1>Food Recipe</h1>
             <h5>Welcome to your kitchen’s best companion! Discover delicious recipes, simple ingredients, and easy-to-follow cooking instructions that turn everyday meals into something special. Whether you’re cooking for yourself or your family, inspiration starts here.</h5>
-            <button onClick={()=> navigate("/addRecipe")}>Share your recipe</button>
+            <button onClick={addRecipe}>Share your recipe</button>
         </div>
         <div className = 'right'>
             <img src = {food1} width ="320px" height= "300px"></img>
@@ -33,6 +42,7 @@ export default function Home() {
                 />
                 </svg>
         </div>
+        { (isOpen) && <Model onClose = {() => setIsOpen(false)}><InputForm setIsOpen={()=> setIsOpen(false)}/></Model>}
     <div className = 'recipe'>
       <RecipeItems />
     </div>
