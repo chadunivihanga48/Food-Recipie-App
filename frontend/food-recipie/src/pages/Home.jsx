@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import food1 from '../assets/food1.jpg'
-import { useLoaderData } from 'react-router-dom'
+import InputForm from '../components/InputForm'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
+import RecipeItems from '../components/RecipeItems'
+import Model from '../components/Model'
 
 export default function Home() {
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
+
   const addRecipe = ()=> {
     let token = localStorage.getItem("token")
     if(token)
@@ -16,7 +19,7 @@ export default function Home() {
     setIsOpen(true)
   }
   }
-  const recipies = useLoaderData();
+ 
   return (
     <>
     <Navbar />
@@ -46,7 +49,7 @@ export default function Home() {
     <div className = 'recipe'>
       <RecipeItems />
     </div>
-   <Footer />
+   
     </>
   )
 }

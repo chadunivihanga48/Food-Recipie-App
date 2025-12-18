@@ -1,6 +1,6 @@
-import React from 'react'
-import { useLoaderData } from 'react-router-dom'
-import food1 from '../assets/food1.jpg'
+import React, { useEffect, useState }from 'react'
+import { Link, useLoaderData, useNavigate } from 'react-router-dom'
+import foodImg from '../assets/food1.jpg'
 import { BsStopwatchFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
@@ -12,6 +12,7 @@ export default function RecipeItems() {
   let path = window.location.pathname==="/myRecipie" ? true: false
   let favItems = JSON.parse(localStorage.getItem("fav")) ?? []
   const [isFavRecipe, setIsFavRecipe] = useState(false)
+  const navigate = useNavigate()
   console.log(allRecipes)
 
   useEffect(()=>{
@@ -38,7 +39,7 @@ export default function RecipeItems() {
       {
         allRecipes?.map((item, index) => {
           return(
-            <div key = {index} classname = 'card'>
+            <div key = {index} classname = 'card' onDoublieClick= {()=> navigate(`/recipe/${item._id}`)}>
               <img src = {`http://localhost:5000/images/${item.coverImage}`} width= "120px" height= "100px"></img>
               <div className= 'card-body'>
                 <div className = 'title'>

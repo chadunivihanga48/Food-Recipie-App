@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import {useNavigate, useParams} from 'react-router-dom'
 import axios from 'axios'
 
 export default function EditRecipie() {
@@ -24,7 +24,7 @@ export default function EditRecipie() {
     },[])
 
     const onHandleChange =(e)=> {
-        console.log(e.target.files[0])
+        
         let val =(e.target.name==="ingredients")?e.target.value.split(","):(e.target.name === "file")? e.target.files[0]:e.target.value
         setRecipeData(pre=>({...pre,[e.target.name]:val}))
     }
@@ -38,7 +38,7 @@ export default function EditRecipie() {
                 'authorization' : 'bearer '+localStorage.getItem("token")
             }
         })
-        .then(()=> navigate("/"))
+        .then(()=> navigate("/myRecipe"))
 
     }
   return (
@@ -47,19 +47,19 @@ export default function EditRecipie() {
                 <form className='form' onSubmit={onHandleSubmit}>
                     <div className='form-control'>
                         <label>Title</label>
-                        <input type="text" className='input' name="title" onChange={onHandleChange} values = {recipeData.title}></input>
+                        <input type="text" className='input' name="title" onChange={onHandleChange} value = {recipeData.title}></input>
                     </div>
                     <div className='form-control'>
                         <label>Time</label>
-                        <input type="text" className='input' name="time" onChange={onHandleChange} values = {recipeData.time}></input>
+                        <input type="text" className='input' name="time" onChange={onHandleChange} value = {recipeData.time}></input>
                     </div>
                     <div className='form-control'>
                         <label>Ingredients</label>
-                        <textarea type="text" className='input-textarea' name="ingredients" rows="5" onChange={onHandleChange} values = {recipeData.ingredients}></textarea>
+                        <textarea type="text" className='input-textarea' name="ingredients" rows="5" onChange={onHandleChange} value = {recipeData.ingredients}></textarea>
                     </div>
                     <div className='form-control'>
                         <label>Instructions</label>
-                        <textarea type="text" className='input-textarea' name="instructions" rows="5" onChange={onHandleChange} values = {recipeData.instructions}></textarea>
+                        <textarea type="text" className='input-textarea' name="instructions" rows="5" onChange={onHandleChange} value = {recipeData.instructions}></textarea>
                     </div>
                     <div className='form-control'>
                         <label>Recipe Image</label>

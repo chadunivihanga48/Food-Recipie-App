@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useEffect, useState } from 'react'
 import Model from './Model'
+import InputForm from './InputForm'
 import { NavLink } from 'react-router-dom'
 
 export default function Navbar() {
