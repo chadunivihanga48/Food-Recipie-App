@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
     cb(null, './public/images')
   },
   filename: function (req, file, cb) {
-    const filename = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    const filename = Date.now() + '-' + file.fieldname
     cb(null, filename)
   }
 })
@@ -30,7 +30,7 @@ const addRecipies = async(req, res) => {
     }
     const newRecipie = await Recipies.create({
         title, ingredients, instructions, time, coverImage:req.file.filename,
-        createdBy: req.user.id
+        createdBy:req.user.id
     })
     return res.json(newRecipie)
 }
@@ -39,7 +39,7 @@ const editRecipies = async(req, res) => {
     let recipie = await Recipies.findById(req.params.id)
     try{
         if(recipie){
-            let coverImage = req.file ?. filename ?req.file?. filename:recipie.coverImage
+        let coverImage = req.file?.filename ?req.file?.filename:recipie.coverImage
         await Recipies.findByidAndUpdate(req.params.id, {...req.body, coverImage}, {new:true})
         res.json({title, ingredients, instructions, time})
     }
@@ -49,7 +49,7 @@ const editRecipies = async(req, res) => {
 }
 const deleteRecipies = async(req, res) => {
     try{
-        await RecipeItems.deleteOne({_id:req.params.id})
+        await Recipies.deleteOne({_id:req.params.id})
         res.json({status: "ok"})
     }
     catch(err){

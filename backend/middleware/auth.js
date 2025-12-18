@@ -5,7 +5,7 @@ const verifyToken = async(req, res, next)=>{
 
     if(token){
         token = token.split(" ")[1]
-        jwt.verify(token, process.env.JW_SECRET,(err, decoded) =>{
+        jwt.verify(token, process.env.JWT_SECRET,(err, decoded) =>{
             if(err){
                 return res.status(400).json({message: "Invalid token"})
             }
